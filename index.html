@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Talos-Trades</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Talos is an AI field co-pilot for plumbing, hydronics, HVAC and electrical work. It reads equipment from a photo, looks up parts and code with the source named, and works trade math with built-in calculators.">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one dark job-box page. Badge + thesis up top, then a spec-plate grid of what it does, the rules it follows, and one way to reach Matt. */
+:root{
+  --ground:#121314;      /* near-black, matches the badge */
+  --plate:#1b1d1f;       /* raised panel */
+  --line:#2e3134;        /* hairlines, rivets */
+  --ink:#ecebe7;         /* main text, off-white like the badge */
+  --muted:#a2a39f;       /* secondary text */
+  --brass:#c9a24a;       /* the one accent: brass fittings */
+  --brass-deep:#8f6f27;
+  --display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{background:var(--ground)}
+body{background:var(--ground);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6;margin:0}
+a{color:var(--brass)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--brass);outline-offset:3px}
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--display);font-weight:700;letter-spacing:.01em;line-height:1.02;margin:0;text-wrap:balance}
+h1{font-size:clamp(2.6rem,7vw,4.6rem);text-transform:uppercase}
+h2{font-size:clamp(1.9rem,4vw,2.6rem);text-transform:uppercase}
+h3{font-size:1.45rem;text-transform:uppercase;letter-spacing:.03em}
+p{margin:0}
+.label{font-family:var(--mono);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--brass)}
+
+/* top bar */
+.top{border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:14px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink)}
+.brand img{width:44px;height:44px;border-radius:50%}
+.brand span{font-family:var(--display);font-weight:800;font-size:1.5rem;letter-spacing:.04em;text-transform:uppercase}
+.btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--display);font-weight:700;font-size:1.15rem;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;color:#151515;background:var(--brass);border:0;border-radius:3px;padding:10px 18px;cursor:pointer}
+.btn:hover{background:#d8b25a}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn.ghost:hover{border-color:var(--brass);color:var(--brass)}
+
+/* hero */
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:48px;align-items:center;padding-block:64px 56px}
+.hero-copy{display:flex;flex-direction:column;gap:22px;min-width:0}
+.hero-copy .lede{font-size:1.2rem;color:var(--muted);max-width:34em}
+.hero-copy .lede strong{color:var(--ink);font-weight:600}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px}
+.badge{justify-self:center;width:min(340px,100%);aspect-ratio:1;max-width:100%;border-radius:50%;box-shadow:0 0 0 1px var(--line),0 30px 80px -30px rgba(201,162,74,.35)}
+.trades{display:flex;flex-wrap:wrap;gap:8px}
+.trades li{list-style:none;font-family:var(--mono);font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--line);border-radius:2px;padding:4px 10px;color:var(--ink)}
+.trades{padding:0;margin:0}
+
+/* sample answer */
+.sample{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--plate)}
+.sample .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:40px;padding-block:48px;align-items:center}
+.sample-copy{display:flex;flex-direction:column;gap:14px;min-width:0}
+.sample-copy p{color:var(--muted)}
+.chat{display:flex;flex-direction:column;gap:12px;font-size:.98rem;min-width:0}
+.msg{border-radius:4px;padding:14px 16px;max-width:92%}
+.msg.q{align-self:flex-end;background:#26292c;border:1px solid var(--line)}
+.msg.a{align-self:flex-start;background:var(--ground);border:1px solid var(--line);border-left:3px solid var(--brass)}
+.msg .who{display:block;font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.note{font-family:var(--mono);font-size:.75rem;color:var(--muted)}
+
+/* features */
+.section .wrap{padding-block:64px;display:flex;flex-direction:column;gap:32px}
+.section-head{display:flex;flex-direction:column;gap:10px;max-width:40em}
+.section-head p{color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.cell{background:var(--ground);padding:28px 26px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.cell p{color:var(--muted)}
+.cell .label{color:var(--brass)}
+
+/* rules */
+.rules{background:var(--plate);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.rule-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 40px}
+.rule-list li{display:grid;grid-template-columns:22px minmax(0,1fr);gap:12px;align-items:start}
+.rule-list li::before{content:"";width:12px;height:12px;margin-top:8px;border:2px solid var(--brass);border-radius:50%}
+.rule-list b{display:block;font-weight:600}
+.rule-list span{color:var(--muted)}
+
+/* founder */
+.founder .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:40px;padding-block:64px}
+.founder p{color:var(--muted);max-width:38em}
+.founder p + p{margin-top:14px}
+
+/* contact */
+.contact{border-top:1px solid var(--line)}
+.contact .wrap{padding-block:64px;display:flex;flex-direction:column;align-items:flex-start;gap:18px}
+.contact p{color:var(--muted);max-width:36em}
+.email-row{display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+.email{font-family:var(--mono);font-size:1.15rem;color:var(--ink);background:var(--plate);border:1px solid var(--line);border-radius:3px;padding:9px 14px;user-select:all;overflow-wrap:anywhere}
+#copy-status{font-family:var(--mono);font-size:.8rem;color:var(--brass);min-height:1.2em}
+
+footer{border-top:1px solid var(--line)}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;padding-block:24px;font-size:.85rem;color:var(--muted)}
+footer a{color:var(--muted)}
+
+@media (max-width:760px){
+  .hero .wrap,.sample .wrap,.founder .wrap{grid-template-columns:minmax(0,1fr);gap:32px}
+  .hero .wrap{padding-block:40px}
+  .badge{width:min(220px,70%);order:-1}
+  .grid,.rule-list{grid-template-columns:minmax(0,1fr)}
+  .top .btn{font-size:1rem;padding:8px 12px}
+  .brand span{font-size:1.25rem}
+}
+@media (prefers-reduced-motion:no-preference){
+  .btn{transition:background .15s,border-color .15s,color .15s}
+}
+</style>
+
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Talos-Trades home">
+      <img src="logo.png" alt="" width="44" height="44">
+      <span>Talos-Trades</span>
+    </a>
+    <a class="btn" href="#demo">Request a demo</a>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-copy">
+        <span class="label">AI field co-pilot for the trades</span>
+        <h1>Right first.<br>Fast second.</h1>
+        <p class="lede">Talos helps techs on the job. Snap a photo and it reads the equipment and names the parts. Ask a code or part question and it answers <strong>from the documents, with the source named</strong>. If the answer isn't there, it tells you so instead of guessing.</p>
+        <ul class="trades" aria-label="Trades covered">
+          <li>Plumbing</li><li>Hydronics &amp; boilers</li><li>HVAC</li><li>Electrical</li>
+        </ul>
+        <div class="cta-row">
+          <a class="btn" href="#demo">Request a demo</a>
+          <a class="btn ghost" href="#what">What it does</a>
+        </div>
+      </div>
+      <img class="badge" src="logo.png" alt="Talos-Trades badge: a robot raptor holding a pipe wrench, with the words Autonomous Trades AI" width="340" height="340">
+    </div>
+  </section>
+
+  <section class="sample" aria-labelledby="sample-h">
+    <div class="wrap">
+      <div class="sample-copy">
+        <span class="label">How it talks</span>
+        <h2 id="sample-h">No source, no answer</h2>
+        <p>A confident wrong answer on a job costs more than no answer. So Talos only gives code sections, specs and part numbers it can point to, and it says which book and edition they came from.</p>
+      </div>
+      <div class="chat" aria-label="Example of Talos declining to guess">
+        <div class="msg q"><span class="who">Tech</span>What's the part number for the igniter on this unit?</div>
+        <div class="msg a"><span class="who">Talos</span>I can see the unit, but I don't have its parts list in my documents, so I can't give you a part number. If you can get a clear photo of the rating plate, I'll look up the model.</div>
+        <span class="note">Example of the behavior, not a live transcript.</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="what" aria-labelledby="what-h">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="label">What it does</span>
+        <h2 id="what-h">Built for the work in front of you</h2>
+      </div>
+      <div class="grid">
+        <div class="cell">
+          <span class="label">Photo</span>
+          <h3>Name the part</h3>
+          <p>Take a photo of fittings, valves or equipment. A detector trained on job-site photos boxes and names the parts. Readable print, like a rating plate, helps pin down the make and model.</p>
+        </div>
+        <div class="cell">
+          <span class="label">Code</span>
+          <h3>Look up the code</h3>
+          <p>Code answers come from the code books loaded for your area, labeled by edition. If the adopted code and a manufacturer's manual disagree, Talos says so.</p>
+        </div>
+        <div class="cell">
+          <span class="label">Parts &amp; manuals</span>
+          <h3>Find the right manual</h3>
+          <p>Part numbers come from parts tables, not memory. Fault codes name the manual and page they came from.</p>
+        </div>
+        <div class="cell">
+          <span class="label">Math</span>
+          <h3>Work the numbers</h3>
+          <p>Trade math is done by built-in calculators and table lookups. The AI explains the result. It doesn't do the arithmetic in its head.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section rules" aria-labelledby="rules-h">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="label">House rules</span>
+        <h2 id="rules-h">How Talos is built</h2>
+      </div>
+      <ul class="rule-list">
+        <li><div><b>Facts come from documents.</b><span>Code books, manuals and parts tables. The AI explains; it doesn't make things up.</span></div></li>
+        <li><div><b>It says when it doesn't know.</b><span>No source means no code section, spec or part number.</span></div></li>
+        <li><div><b>Your shop's data stays yours.</b><span>Each shop runs on its own private setup, so your photos and job notes aren't shared with other shops.</span></div></li>
+        <li><div><b>Tested before it changes.</b><span>Every change to how Talos answers is graded against trade question sets before it goes live.</span></div></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="founder" aria-labelledby="founder-h">
+    <div class="wrap">
+      <div>
+        <span class="label">Who builds it</span>
+        <h2 id="founder-h" style="margin-top:10px">Built by a tradesman</h2>
+      </div>
+      <div>
+        <p>Talos-Trades was founded by Matt Castagna, a working tradesman in plumbing, hydronics, HVAC and electrical. He builds and tests every tool on real jobs.</p>
+        <p>The co-pilot is step one. The long-term goal is a trades database checked by people who do the work, and AI agents that can help do it.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="demo" aria-labelledby="demo-h">
+    <div class="wrap">
+      <span class="label">Request a demo</span>
+      <h2 id="demo-h">See it on your own jobs</h2>
+      <p>Email Matt with your company name, your trade, and how many techs you have. He'll set up a time to show you Talos.</p>
+      <div class="email-row">
+        <a class="email" href="mailto:matt@talos-trades.com?subject=Talos%20demo%20request">matt@talos-trades.com</a>
+        <button class="btn ghost" type="button" id="copy-btn">Copy address</button>
+      </div>
+      <span id="copy-status" role="status" aria-live="polite"></span>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>&copy; 2026 Talos-Trades LLC</span>
+    <a href="https://www.instagram.com/talostradesllc/" rel="noopener">Instagram</a>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var btn=document.getElementById('copy-btn'),status=document.getElementById('copy-status'),addr='matt@talos-trades.com';
+  function selectIt(){var el=document.querySelector('.email');var r=document.createRange();r.selectNodeContents(el);var s=window.getSelection();s.removeAllRanges();s.addRange(r);status.textContent='Selected. Press Ctrl+C to copy.';}
+  btn.addEventListener('click',function(){
+    try{navigator.clipboard.writeText(addr).then(function(){status.textContent='Copied.';},selectIt);}catch(e){selectIt();}
+  });
+})();
+</script>
+
+</body>
+</html>
